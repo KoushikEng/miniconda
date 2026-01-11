@@ -60,3 +60,46 @@ conda info
 
 - Miniconda is installed to `/opt/miniconda` and the image modifies shell init files via `conda init` for convenience.
 - If you need a different conda environment or packages, create a Dockerfile that starts `FROM miniconda:latest` and installs what you need.
+
+## Auto accept conda TOS
+
+To automatically accept the Anaconda Terms of Service (ToS) when *installing packages silently*, you need to configure the `conda-anaconda-tos` plugin using one of three methods. These methods are particularly useful for automated workflows and CI/CD environments.
+
+### Methods to Auto-Accept the ToS
+
+You can use a command-line flag, set an environment variable, or modify your `.condarc` file.
+
+- **Using the command line (Conda >= 25.5.0):**  
+    Run the following command in your terminal to set the configuration:
+  
+    ```bash
+    conda config --set plugins.auto_accept_tos yes
+    ```
+
+    This modifies your `.condarc` file to persist the setting.
+
+- **Setting an environment variable:**  
+  Set the `CONDA_PLUGINS_AUTO_ACCEPT_TOS` environment variable to `"yes"` or `"1"`. This is often the most suitable method for Dockerfiles or CI/CD pipelines.
+  
+  - **In Bash/Zsh:**
+
+    ```bash
+    export CONDA_PLUGINS_AUTO_ACCEPT_TOS=yes
+    ```
+
+  - **In a Dockerfile:**
+
+    ```dockerfile
+    ENV CONDA_PLUGINS_AUTO_ACCEPT_TOS=yes
+    ```
+
+### Modifying the `.condarc` file
+
+Add the following lines to your .condarc file to configure auto acceptance:
+
+```yaml
+plugins:
+  auto_accept_tos: true
+```
+
+You can locate your `.condarc` file using the `conda config --show-sources` command.
