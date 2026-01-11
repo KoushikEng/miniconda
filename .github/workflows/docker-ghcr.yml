@@ -8,9 +8,11 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    
     permissions:
       contents: read
       packages: write
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -46,3 +48,8 @@ jobs:
           labels: |
             org.opencontainers.image.source=${{ github.repositoryUrl }}
             org.opencontainers.image.version=${{ steps.tag.outputs.TAG }}
+            org.opencontainers.image.created=${{ github.event.head_commit.timestamp || github.event.repository.pushed_at }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.authors=${{ github.actor }}
+            org.opencontainers.image.url=${{ github.event.repository.html_url }}
+            org.opencontainers.image.licenses=MIT
