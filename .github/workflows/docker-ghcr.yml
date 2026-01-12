@@ -52,4 +52,3 @@ jobs:
             org.opencontainers.image.revision=${{ github.sha }}
             org.opencontainers.image.authors=${{ github.actor }}
             org.opencontainers.image.url=${{ github.event.repository.html_url }}
-            org.opencontainers.image.licenses=MIT
